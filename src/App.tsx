@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import StarshipCard from './components/StarshipCard/StarshipCard';
+import { shuffle } from './helpers/shuffle';
 import { StarshipData } from './types';
 
 const ALL_STARSHIPS = gql`
@@ -9,7 +10,7 @@ const ALL_STARSHIPS = gql`
         id
         name
         starshipClass
-        MGLT
+        mglt: MGLT
         costInCredits
         passengers
         filmConnection {
@@ -33,9 +34,11 @@ function App() {
 
   const starships = data?.allStarships?.starships || [];
 
+  const shuffled = shuffle(starships);
+
   return (
     <div className="App">
-      {starships.map((starship) => (
+      {shuffled.map((starship) => (
         <StarshipCard key={starship.id} starship={starship} />
       ))}
     </div>
