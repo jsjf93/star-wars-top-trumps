@@ -36,8 +36,8 @@ function GameArea({ playerCard, computerCard, handleScoreUpdate }: Props) {
   const handleSelect = (categoryKey: string, value: number) => {
     const computerCategory = computerCategories.find((category) => category.key === categoryKey);
 
-    const playerValue = isNaN(value) ? 0 : value;
-    const computerValue = isNaN(computerCategory?.value) ? 0 : computerCategory?.value;
+    const playerValue = isNaN(value) ? 0 : +value;
+    const computerValue = isNaN(computerCategory?.value) ? 0 : +computerCategory?.value;
 
     if (playerValue === computerValue) {
       setOutcome('Draw');
