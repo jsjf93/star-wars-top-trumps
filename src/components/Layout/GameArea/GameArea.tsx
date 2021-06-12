@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Starship } from '../../../types';
+import OutcomeModal from '../../Modals/OutcomeModal';
 import StarshipCard from '../../StarshipCard/StarshipCard';
 
 import './GameArea.scss';
@@ -46,6 +47,8 @@ function GameArea({ playerCard, computerCard, handleScoreUpdate }: Props) {
     }
   };
 
+  const handleCloseModal = () => setOutcome(undefined);
+
   return (
     <div className="game-area">
       <Row>
@@ -55,17 +58,22 @@ function GameArea({ playerCard, computerCard, handleScoreUpdate }: Props) {
             starshipClass={playerCard.starshipClass}
             categories={playerCategories}
             handleSelect={handleSelect}
+            isPlayer={true}
           />
         </Col>
-        <Col className="game-area__card-column">
-          <StarshipCard
-            name={computerCard.name}
-            starshipClass={computerCard.starshipClass}
-            categories={computerCategories}
-            handleSelect={handleSelect}
-          />
-        </Col>
+        {outcome && (
+          <Col className="game-area__card-column">
+            <StarshipCard
+              name={computerCard.name}
+              starshipClass={computerCard.starshipClass}
+              categories={computerCategories}
+              handleSelect={handleSelect}
+            />
+          </Col>
+        )}
       </Row>
+
+      <OutcomeModal outcome={outcome} handleClose={handleCloseModal} />
     </div>
   );
 }

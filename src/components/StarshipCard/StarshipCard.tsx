@@ -8,14 +8,17 @@ type Props = {
   starshipClass: string;
   categories: { key: string; value: number; name: string }[];
   handleSelect: (categoryKey: string, value: number) => void;
+  isPlayer?: boolean;
 };
 
-function StarshipCard({ name, starshipClass, categories, handleSelect }: Props) {
+function StarshipCard({ name, starshipClass, categories, handleSelect, isPlayer }: Props) {
   const [selected, setSelected] = useState<string>();
 
   const handleClick = (categoryKey: string, value: number) => {
-    setSelected(categoryKey);
-    handleSelect(categoryKey, value);
+    if (isPlayer) {
+      setSelected(categoryKey);
+      handleSelect(categoryKey, value);
+    }
   };
 
   return (

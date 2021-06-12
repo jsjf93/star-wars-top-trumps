@@ -26,15 +26,9 @@ const ALL_STARSHIPS = gql`
 
 function App() {
   const [scores, setScores] = useState({ playerScore: 0, computerScore: 0 });
+  const [usedCardIds, setUsedCardIds] = useState<string[]>([]);
 
   const { loading, error, data } = useQuery<StarshipDataResponse>(ALL_STARSHIPS);
-
-  const handleScoreUpdate = (points: { playerScore: number; computerScore: number }) => {
-    setScores({
-      playerScore: (scores.playerScore += points.playerScore),
-      computerScore: (scores.computerScore += points.computerScore),
-    });
-  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -48,16 +42,33 @@ function App() {
     (starship) => ({ ...starship, totalCount: starship.filmConnection.totalCount }),
   );
 
-  const starships = shuffle(mappedResponseToType);
+  const starships = shuffle(mappedResponseToType).filter(
+    (starship) => !usedCardIds.includes(starship.id),
+  );
+
+  const [playerCard, computerCard] = [starships[0], starships[1]];
+
+  const handleScoreUpdate = (points: { playerScore: number; computerScore: number }) => {
+    setScores({
+      playerScore: (scores.playerScore += points.playerScore),
+      computerScore: (scores.computerScore += points.computerScore),
+    });
+
+    setUsedCardIds([...usedCardIds, playerCard.id, computerCard.id]);
+  };
 
   return (
-    <Container>
+    <Container className="app">
       <Header {...scores} />
-      <GameArea
-        playerCard={starships[0]}
-        computerCard={starships[1]}
-        handleScoreUpdate={handleScoreUpdate}
-      />
+      {starships.length ? (
+        <GameArea
+          playerCard={playerCard}
+          computerCard={computerCard}
+          handleScoreUpdate={handleScoreUpdate}
+        />
+      ) : (
+        <p className="app__paragraph">No more cards. Game over</p>
+      )}
     </Container>
   );
 }

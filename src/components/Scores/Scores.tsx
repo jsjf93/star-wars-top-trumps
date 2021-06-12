@@ -4,7 +4,11 @@ type Props = {
 };
 
 function Scores({ playerScore, computerScore }: Props) {
-  return <div>{`${playerScore} : ${computerScore}`}</div>;
+  return (
+    <div>
+      <h2>{`${playerScore} : ${computerScore}`}</h2>
+    </div>
+  );
 }
 
 export default Scores;
