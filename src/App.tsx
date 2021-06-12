@@ -5,6 +5,7 @@ import GameArea from './components/Layout/GameArea/GameArea';
 import Header from './components/Layout/Header/Header';
 import { shuffle } from './helpers/shuffle';
 import { Starship, StarshipDataResponse } from './types';
+import './App.scss';
 
 const ALL_STARSHIPS = gql`
   query allStarships {
