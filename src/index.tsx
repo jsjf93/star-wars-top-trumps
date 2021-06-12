@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { env } from './env';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const client = new ApolloClient({
   uri: env.apiUrl,

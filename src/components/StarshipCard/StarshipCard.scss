@@ -1,0 +1,17 @@
+.starship-card {
+  width: 400px;
+  padding: 20px;
+
+  box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.75);
+
+  &__category {
+    display: flex;
+    justify-content: space-between;
+
+    &--selected {
+      border: 1px solid black;
+    }
+  }
+}

@@ -1,19 +1,38 @@
-import { Starship } from '../../types';
+import { useState } from 'react';
+import StarshipCategory from './StarshipCategory';
+
+import './StarshipCard.scss';
 
 type Props = {
-  starship: Starship;
+  name: string;
+  starshipClass: string;
+  categories: { key: string; value: number; name: string }[];
+  handleSelect: (categoryKey: string, value: number) => void;
 };
 
-function StarshipCard({ starship }: Props) {
-  return (
-    <div key={starship.id}>
-      <h2>{starship.name}</h2>
+function StarshipCard({ name, starshipClass, categories, handleSelect }: Props) {
+  const [selected, setSelected] = useState<string>();
 
-      <p>Class: {starship.starshipClass}</p>
-      <p>Max speed: {starship.mglt}</p>
-      <p>Cost in credits: {starship.costInCredits}</p>
-      <p>Max passengers: {starship.passengers}</p>
-      <p>Total films featuring ship: {starship.filmConnection.totalCount}</p>
+  const handleClick = (categoryKey: string, value: number) => {
+    setSelected(categoryKey);
+    handleSelect(categoryKey, value);
+  };
+
+  return (
+    <div className="starship-card">
+      <h2>{name}</h2>
+      <h3>Class: {starshipClass}</h3>
+
+      {categories.map((category) => (
+        <StarshipCategory
+          key={category.key}
+          categoryKey={category.key}
+          category={category.name}
+          value={category.value}
+          handleClick={handleClick}
+          selected={category.key === selected}
+        />
+      ))}
     </div>
   );
 }

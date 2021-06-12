@@ -1,7 +1,10 @@
 import { gql, useQuery } from '@apollo/client';
-import StarshipCard from './components/StarshipCard/StarshipCard';
+import { useState } from 'react';
+import { Container } from 'react-bootstrap';
+import GameArea from './components/Layout/GameArea/GameArea';
+import Header from './components/Layout/Header/Header';
 import { shuffle } from './helpers/shuffle';
-import { StarshipData } from './types';
+import { Starship, StarshipDataResponse } from './types';
 
 const ALL_STARSHIPS = gql`
   query allStarships {
@@ -22,7 +25,16 @@ const ALL_STARSHIPS = gql`
 `;
 
 function App() {
-  const { loading, error, data } = useQuery<StarshipData>(ALL_STARSHIPS);
+  const [scores, setScores] = useState({ playerScore: 0, computerScore: 0 });
+
+  const { loading, error, data } = useQuery<StarshipDataResponse>(ALL_STARSHIPS);
+
+  const handleScoreUpdate = (points: { playerScore: number; computerScore: number }) => {
+    setScores({
+      playerScore: (scores.playerScore += points.playerScore),
+      computerScore: (scores.computerScore += points.computerScore),
+    });
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -32,16 +44,21 @@ function App() {
     return <p>Error retrieving data</p>;
   }
 
-  const starships = data?.allStarships?.starships || [];
+  const mappedResponseToType: Starship[] = (data?.allStarships?.starships || []).map(
+    (starship) => ({ ...starship, totalCount: starship.filmConnection.totalCount }),
+  );
 
-  const shuffled = shuffle(starships);
+  const starships = shuffle(mappedResponseToType);
 
   return (
-    <div className="App">
-      {shuffled.map((starship) => (
-        <StarshipCard key={starship.id} starship={starship} />
-      ))}
-    </div>
+    <Container>
+      <Header {...scores} />
+      <GameArea
+        playerCard={starships[0]}
+        computerCard={starships[1]}
+        handleScoreUpdate={handleScoreUpdate}
+      />
+    </Container>
   );
 }
 
