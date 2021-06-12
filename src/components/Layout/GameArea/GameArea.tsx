@@ -28,6 +28,7 @@ const getCategories = (starship: Starship) =>
 
 function GameArea({ playerCard, computerCard, handleScoreUpdate }: Props) {
   const [outcome, setOutcome] = useState<'Win' | 'Lose' | 'Draw'>();
+  const [roundScore, setRoundScore] = useState({ playerScore: 0, computerScore: 0 });
 
   const playerCategories = getCategories(playerCard);
   const computerCategories = getCategories(computerCard);
@@ -35,19 +36,25 @@ function GameArea({ playerCard, computerCard, handleScoreUpdate }: Props) {
   const handleSelect = (categoryKey: string, value: number) => {
     const computerCategory = computerCategories.find((category) => category.key === categoryKey);
 
-    if (value === computerCategory?.value) {
+    const playerValue = isNaN(value) ? 0 : value;
+    const computerValue = isNaN(computerCategory?.value) ? 0 : computerCategory?.value;
+
+    if (playerValue === computerValue) {
       setOutcome('Draw');
-      handleScoreUpdate({ playerScore: 0, computerScore: 0 });
-    } else if (value < computerCategory?.value) {
+      setRoundScore({ playerScore: 0, computerScore: 0 });
+    } else if (playerValue < computerValue) {
       setOutcome('Lose');
-      handleScoreUpdate({ playerScore: 0, computerScore: 1 });
-    } else if (value > computerCategory?.value) {
+      setRoundScore({ playerScore: 0, computerScore: 1 });
+    } else if (playerValue > computerValue) {
       setOutcome('Win');
-      handleScoreUpdate({ playerScore: 1, computerScore: 0 });
+      setRoundScore({ playerScore: 1, computerScore: 0 });
     }
   };
 
-  const handleCloseModal = () => setOutcome(undefined);
+  const handleCloseModal = () => {
+    setOutcome(undefined);
+    handleScoreUpdate(roundScore);
+  };
 
   return (
     <div className="game-area">
