@@ -1,0 +1,17 @@
+.navigation-bar {
+  .navbar-nav {
+    margin-left: 20px;
+  }
+
+  &__link {
+    color: black;
+
+    &:first-child {
+      margin-right: 20px;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
