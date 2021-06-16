@@ -1,24 +1,10 @@
-import { Col, Row } from 'react-bootstrap';
-import Scores from '../../Scores/Scores';
-
 import './Header.scss';
 
-type Props = {
-  playerScore: number;
-  computerScore: number;
-};
-
-function Header(props: Props) {
+function Header() {
   return (
-    <div className="header">
-      <Row className="section">
-        <Col>
-          <h1>Top Trumps</h1>
-
-          <Scores {...props} />
-        </Col>
-      </Row>
-    </div>
+    <header className="header" role="banner">
+      <h1>Top Trumps</h1>
+    </header>
   );
 }
 

@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import StarshipCategory from './StarshipCategory';
-
+import StarshipCategory from './StarshipCategory/StarshipCategory';
 import './StarshipCard.scss';
 
 type Props = {
@@ -12,30 +10,30 @@ type Props = {
 };
 
 function StarshipCard({ name, starshipClass, categories, handleSelect, isPlayer }: Props) {
-  const [selected, setSelected] = useState<string>();
-
   const handleClick = (categoryKey: string, value: number) => {
     if (isPlayer) {
-      setSelected(categoryKey);
       handleSelect(categoryKey, value);
     }
   };
 
   return (
     <div className="starship-card">
-      <h2>{name}</h2>
+      <h2>Name: {name}</h2>
       <h3>Class: {starshipClass}</h3>
 
-      {categories.map((category) => (
-        <StarshipCategory
-          key={category.key}
-          categoryKey={category.key}
-          category={category.name}
-          value={category.value}
-          handleClick={handleClick}
-          selected={category.key === selected}
-        />
-      ))}
+      <label htmlFor="categoryList">Choose a category:</label>
+      <ul id="categoryList">
+        {categories.map((category) => (
+          <li key={category.key}>
+            <StarshipCategory
+              categoryKey={category.key}
+              category={category.name}
+              value={category.value}
+              handleClick={handleClick}
+            />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

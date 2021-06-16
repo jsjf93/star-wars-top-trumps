@@ -1,3 +1,5 @@
+import './Scores.scss';
+
 type Props = {
   playerScore: number;
   computerScore: number;
@@ -5,7 +7,7 @@ type Props = {
 
 function Scores({ playerScore, computerScore }: Props) {
   return (
-    <div>
+    <div className="scores">
       <h2>{`${playerScore} : ${computerScore}`}</h2>
     </div>
   );

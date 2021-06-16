@@ -6,6 +6,7 @@ import Header from './components/Layout/Header/Header';
 import { shuffle } from './helpers/shuffle';
 import { Starship, StarshipDataResponse } from './types';
 import './App.scss';
+import Scores from './components/Scores/Scores';
 
 const ALL_STARSHIPS = gql`
   query allStarships {
@@ -60,16 +61,19 @@ function App() {
 
   return (
     <Container className="app">
-      <Header {...scores} />
-      {starships.length ? (
-        <GameArea
-          playerCard={playerCard}
-          computerCard={computerCard}
-          handleScoreUpdate={handleScoreUpdate}
-        />
-      ) : (
-        <p className="app__paragraph">No more cards. Game over</p>
-      )}
+      <Header />
+      <main>
+        <Scores {...scores} />
+        {starships.length ? (
+          <GameArea
+            playerCard={playerCard}
+            computerCard={computerCard}
+            handleScoreUpdate={handleScoreUpdate}
+          />
+        ) : (
+          <p className="app__paragraph">No more cards. Game over</p>
+        )}
+      </main>
     </Container>
   );
 }

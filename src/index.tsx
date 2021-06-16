@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axe from '@axe-core/react';
 import './index.css';
 import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { env } from './env';
 import 'bootstrap/dist/css/bootstrap.css';
+
+if (env.environment !== 'production') {
+  axe(React, ReactDOM, 1000, {});
+}
 
 const client = new ApolloClient({
   uri: env.apiUrl,
