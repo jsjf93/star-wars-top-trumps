@@ -13,3 +13,7 @@ code {
 .section {
   margin-top: 20px;
 }
+
+.custom-switch {
+  padding-left: 0 !important;
+}
