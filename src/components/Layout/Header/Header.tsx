@@ -2,7 +2,7 @@ import './Header.scss';
 
 function Header() {
   return (
-    <header className="header" role="banner">
+    <header className="header">
       <h1>Top Trumps</h1>
     </header>
   );

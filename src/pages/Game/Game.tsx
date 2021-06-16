@@ -32,14 +32,6 @@ function Game() {
 
   const { loading, error, data } = useQuery<StarshipDataResponse>(ALL_STARSHIPS);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error retrieving data</p>;
-  }
-
   const mappedResponseToType: Starship[] = (data?.allStarships?.starships || []).map(
     (starship) => ({ ...starship, totalCount: starship.filmConnection.totalCount }),
   );
@@ -72,10 +64,12 @@ function Game() {
   return (
     <Container className="game">
       <Helmet>
-        <title>Top Trumps - Game</title>
+        <title>Game</title>
       </Helmet>
       <main>
         <Scores {...scores} />
+        {loading && <p>Loading...</p>}
+        {error && <p>Error retrieving data</p>}
         {starships.length ? (
           <GameArea
             playerCard={playerCard}
